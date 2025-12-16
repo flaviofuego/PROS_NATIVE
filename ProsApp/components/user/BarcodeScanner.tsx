@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Platform, TextInput } from 'react-native';
 import { CameraView, useCameraPermissions, BarcodeScanningResult } from 'expo-camera';
 import { Button } from '@/components/ui/Button';
 
@@ -8,7 +8,61 @@ interface BarcodeScannerProps {
   enabled?: boolean;
 }
 
-export function BarcodeScanner({ onCodeScanned, enabled = true }: BarcodeScannerProps) {
+// Componente para entrada manual en web
+function ManualCodeEntry({ onCodeScanned, enabled }: BarcodeScannerProps) {
+  const [code, setCode] = useState('');
+
+  const handleSubmit = () => {
+    if (code.trim() && enabled) {
+      onCodeScanned(code.trim());
+      setCode('');
+    }
+  };
+
+  return (
+    <View style={styles.webContainer}>
+      <View style={styles.webContent}>
+        <View style={styles.iconContainer}>
+          <Text style={styles.iconText}>📱</Text>
+        </View>
+        <Text style={styles.webTitle}>Escáner no disponible en web</Text>
+        <Text style={styles.webDescription}>
+          El escáner de códigos de barras solo funciona en dispositivos móviles.
+          {'\n'}Usa la entrada manual para registrar asistencia:
+        </Text>
+        
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputLabel}>Código Estudiantil</Text>
+          <TextInput
+            style={styles.input}
+            value={code}
+            onChangeText={setCode}
+            placeholder="Ingresa el código del estudiante"
+            placeholderTextColor="#94a3b8"
+            autoCapitalize="characters"
+            autoCorrect={false}
+            editable={enabled}
+            onSubmitEditing={handleSubmit}
+            returnKeyType="done"
+          />
+        </View>
+
+        <Button
+          title="Registrar Asistencia"
+          onPress={handleSubmit}
+          disabled={!code.trim() || !enabled}
+        />
+
+        <Text style={styles.webHint}>
+          💡 Presiona Enter o el botón para registrar
+        </Text>
+      </View>
+    </View>
+  );
+}
+
+// Componente de cámara para móvil
+function CameraScanner({ onCodeScanned, enabled = true }: BarcodeScannerProps) {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
 
@@ -101,6 +155,15 @@ export function BarcodeScanner({ onCodeScanned, enabled = true }: BarcodeScanner
       </CameraView>
     </View>
   );
+}
+
+export function BarcodeScanner({ onCodeScanned, enabled = true }: BarcodeScannerProps) {
+  // En web, mostrar entrada manual; en móvil, usar cámara
+  if (Platform.OS === 'web') {
+    return <ManualCodeEntry onCodeScanned={onCodeScanned} enabled={enabled} />;
+  }
+
+  return <CameraScanner onCodeScanned={onCodeScanned} enabled={enabled} />;
 }
 
 const SCAN_AREA_SIZE = 280;
@@ -217,5 +280,80 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 50,
   },
+  // Estilos para versión web
+  webContainer: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  webContent: {
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 32,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 8,
+    maxWidth: 400,
+    width: '100%',
+  },
+  iconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#e0e7ff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  iconText: {
+    fontSize: 40,
+  },
+  webTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#1e293b',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  webDescription: {
+    fontSize: 14,
+    color: '#64748b',
+    textAlign: 'center',
+    marginBottom: 28,
+    lineHeight: 22,
+  },
+  inputContainer: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  inputLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 8,
+  },
+  input: {
+    backgroundColor: '#f8fafc',
+    borderWidth: 2,
+    borderColor: '#e2e8f0',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 18,
+    color: '#1e293b',
+    fontWeight: '500',
+    letterSpacing: 1,
+    textAlign: 'center',
+  },
+  webHint: {
+    fontSize: 13,
+    color: '#94a3b8',
+    marginTop: 16,
+    textAlign: 'center',
+  },
 });
-
