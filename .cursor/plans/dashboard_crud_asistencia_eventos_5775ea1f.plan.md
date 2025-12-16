@@ -253,7 +253,7 @@ Crear migrations SQL para:
 2. **[lib/types.ts](lib/types.ts)** - Tipos TypeScript
 3. **[contexts/AuthContext.tsx](contexts/AuthContext.tsx)** - Context de autenticación
 4. **[app/_layout.tsx](app/_layout.tsx)** - Root layout con auth guard
-5. **[app/(auth)/login.tsx](app/\\(auth)/login.tsx)** - Pantalla de login
-6. **[app/(admin)/dashboard.tsx](app/\\(admin)/dashboard.tsx)** - Dashboard admin
-7. **[app/(user)/eventos/index.tsx](app/\\(user)/eventos/index.tsx)** - Lista eventos activos
+5. **[app/(auth)/login.tsx](app/\\\(auth)/login.tsx)** - Pantalla de login
+6. **[app/(admin)/dashboard.tsx](app/\\\(admin)/dashboard.tsx)** - Dashboard admin
+7. **[app/(user)/eventos/index.tsx](app/\\\(user)/eventos/index.tsx)** - Lista eventos activos
 8. **[components/user/BarcodeScanner.tsx](components/user/BarcodeScanner.tsx)** - Scanner de códigos
