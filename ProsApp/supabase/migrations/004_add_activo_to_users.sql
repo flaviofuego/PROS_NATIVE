@@ -8,3 +8,4 @@ CREATE INDEX IF NOT EXISTS idx_users_activo ON public.users(activo);
 -- Comment for documentation
 COMMENT ON COLUMN public.users.activo IS 'Indicates if the user is active (false = soft deleted)';
 
+
