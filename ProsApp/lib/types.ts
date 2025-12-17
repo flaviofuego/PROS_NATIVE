@@ -5,6 +5,7 @@ export interface User {
   email: string;
   role: UserRole;
   nombre: string;
+  activo: boolean;
   created_at: string;
   updated_at: string;
 }

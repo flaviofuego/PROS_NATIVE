@@ -203,6 +203,7 @@ export default function CrearUsuarioScreen() {
               email: formData.email.trim().toLowerCase(),
               nombre: formData.nombre.trim(),
               role: formData.role,
+              activo: true,
             });
 
             if (profileError) {
@@ -231,6 +232,7 @@ export default function CrearUsuarioScreen() {
           email: formData.email.trim().toLowerCase(),
           nombre: formData.nombre.trim(),
           role: formData.role,
+          activo: true,
         });
 
         if (profileError) {

@@ -24,6 +24,7 @@ export default function UsuariosListScreen() {
       const { data, error } = await supabase
         .from('users')
         .select('*')
+        .eq('activo', true) // Solo usuarios activos
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -39,19 +40,26 @@ export default function UsuariosListScreen() {
     fetchUsuarios();
   }, [fetchUsuarios]);
 
-  const handleDeleteUser = (userId: string, userName: string) => {
+  const handleDeactivateUser = (userId: string, userName: string) => {
     Alert.alert(
-      'Eliminar Usuario',
-      `¿Estás seguro de que deseas eliminar a ${userName}?`,
+      'Desactivar Usuario',
+      `¿Estás seguro de que deseas desactivar a "${userName}"?\n\nEl usuario no podrá acceder a la aplicación pero sus datos se conservarán.`,
       [
         { text: 'Cancelar', style: 'cancel' },
         {
-          text: 'Eliminar',
+          text: 'Desactivar',
           style: 'destructive',
           onPress: async () => {
             try {
-              const { error } = await supabase.from('users').delete().eq('id', userId);
+              // Borrado lógico: marcar como inactivo
+              const { error } = await supabase
+                .from('users')
+                .update({ activo: false })
+                .eq('id', userId);
+
               if (error) throw error;
+
+              Alert.alert('Éxito', `Usuario "${userName}" desactivado correctamente`);
               fetchUsuarios();
             } catch (err: any) {
               Alert.alert('Error', err.message);
@@ -93,9 +101,10 @@ export default function UsuariosListScreen() {
       <View style={styles.userActions}>
         <TouchableOpacity
           style={styles.actionButton}
-          onPress={() => handleDeleteUser(item.id, item.nombre)}
+          onPress={() => handleDeactivateUser(item.id, item.nombre)}
         >
-          <Ionicons name="trash-outline" size={20} color="#dc2626" />
+          <Ionicons name="person-remove-outline" size={20} color="#dc2626" />
+          <Text style={styles.actionText}>Desactivar</Text>
         </TouchableOpacity>
       </View>
     </Card>
@@ -118,7 +127,7 @@ export default function UsuariosListScreen() {
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Ionicons name="people-outline" size={64} color="#cbd5e1" />
-            <Text style={styles.emptyText}>No hay usuarios</Text>
+            <Text style={styles.emptyText}>No hay usuarios activos</Text>
             <Text style={styles.emptySubtext}>
               Crea el primer usuario para comenzar
             </Text>
@@ -199,7 +208,15 @@ const styles = StyleSheet.create({
     borderTopColor: '#f1f5f9',
   },
   actionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 8,
+    gap: 6,
+  },
+  actionText: {
+    fontSize: 14,
+    color: '#dc2626',
+    fontWeight: '500',
   },
   emptyContainer: {
     flex: 1,
@@ -237,4 +254,3 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
 });
-
