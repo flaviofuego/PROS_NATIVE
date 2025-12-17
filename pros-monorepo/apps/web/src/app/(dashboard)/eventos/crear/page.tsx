@@ -50,7 +50,7 @@ export default function CrearEventoPage() {
       .map((e) => e.trim())
       .filter((e) => e);
 
-    const { error: insertError } = await supabase.from('eventos').insert({
+    const { error: insertError } = await (supabase.from('eventos') as any).insert({
       nombre: formData.nombre.trim(),
       categoria: formData.categoria.trim(),
       encargados: encargadosArray,

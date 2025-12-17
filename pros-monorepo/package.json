@@ -5,6 +5,10 @@
     "apps/*",
     "packages/*"
   ],
+  "overrides": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
   "scripts": {
     "dev": "turbo dev",
     "dev:web": "turbo dev --filter=@pros/web",
@@ -13,13 +17,11 @@
     "lint": "turbo lint",
     "clean": "turbo clean"
   },
-  "overrides": {
-    "@types/react": "18.2.46",
-    "@types/react-dom": "18.2.18"
-  },
   "devDependencies": {
-    "@types/react": "18.2.46",
-    "@types/react-dom": "18.2.18",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
     "turbo": "^2.3.3",
     "typescript": "^5.3.3"
   },

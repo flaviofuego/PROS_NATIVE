@@ -50,32 +50,40 @@ export interface AccesoEvento {
 }
 
 // ============ Database Types for Supabase ============
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       users: {
         Row: User;
         Insert: Omit<User, 'created_at' | 'updated_at'>;
         Update: Partial<Omit<User, 'id' | 'created_at'>>;
+        Relationships: [];
       };
       eventos: {
         Row: Evento;
         Insert: Omit<Evento, 'id' | 'created_at' | 'updated_at'>;
         Update: Partial<Omit<Evento, 'id' | 'created_at'>>;
+        Relationships: [];
       };
       asistencias: {
         Row: Asistencia;
         Insert: Omit<Asistencia, 'id' | 'created_at' | 'evento' | 'usuario'>;
         Update: Partial<Omit<Asistencia, 'id' | 'created_at'>>;
+        Relationships: [];
       };
       accesos_eventos: {
         Row: AccesoEvento;
         Insert: Omit<AccesoEvento, 'id'>;
         Update: Partial<Omit<AccesoEvento, 'id'>>;
+        Relationships: [];
       };
     };
+    Views: { [_ in never]: never };
+    Functions: { [_ in never]: never };
+    Enums: { [_ in never]: never };
+    CompositeTypes: { [_ in never]: never };
   };
-}
+};
 
 // ============ Form Types ============
 export interface EventoFormData {

@@ -65,7 +65,7 @@ export default function CrearUsuarioPage() {
 
     if (signupData.user) {
       // Create user profile
-      const { error: profileError } = await supabase.from('users').insert({
+      const { error: profileError } = await (supabase.from('users') as any).insert({
         id: signupData.user.id,
         email: formData.email.trim().toLowerCase(),
         nombre: formData.nombre.trim(),

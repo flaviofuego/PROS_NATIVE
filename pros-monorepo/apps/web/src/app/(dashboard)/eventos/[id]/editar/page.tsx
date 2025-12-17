@@ -13,7 +13,7 @@ import type { Evento } from '@pros/shared';
 
 export default function EditarEventoPage() {
   const router = useRouter();
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const supabase = createClient();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
@@ -74,8 +74,8 @@ export default function EditarEventoPage() {
       .map((e) => e.trim())
       .filter((e) => e);
 
-    const { error: updateError } = await supabase
-      .from('eventos')
+    const eventosTable = supabase.from('eventos') as any;
+    const { error: updateError } = await eventosTable
       .update({
         nombre: formData.nombre.trim(),
         categoria: formData.categoria.trim(),

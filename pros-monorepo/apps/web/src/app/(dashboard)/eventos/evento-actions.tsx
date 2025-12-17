@@ -38,8 +38,7 @@ export function EventoActions({ evento }: EventoActionsProps) {
   };
 
   const handleToggleActive = async () => {
-    const { error } = await supabase
-      .from('eventos')
+    const { error } = await (supabase.from('eventos') as any)
       .update({ activo: !evento.activo })
       .eq('id', evento.id);
 

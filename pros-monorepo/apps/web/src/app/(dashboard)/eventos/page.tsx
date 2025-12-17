@@ -12,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Plus, Eye, Pencil, Trash2, Copy } from 'lucide-react';
-import { formatDateShort } from '@pros/shared';
+import { formatDateShort, type Evento } from '@pros/shared';
 import { EventoActions } from './evento-actions';
 
 async function getEventos() {
@@ -23,7 +23,7 @@ async function getEventos() {
     .order('created_at', { ascending: false });
   
   if (error) throw error;
-  return data || [];
+  return (data || []) as Evento[];
 }
 
 export default async function EventosPage() {

@@ -12,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Plus, UserCircle } from 'lucide-react';
-import { formatDateShort, getInitials } from '@pros/shared';
+import { formatDateShort, getInitials, type User } from '@pros/shared';
 import { UsuarioActions } from './usuario-actions';
 
 async function getUsuarios() {
@@ -23,7 +23,7 @@ async function getUsuarios() {
     .order('created_at', { ascending: false });
   
   if (error) throw error;
-  return data || [];
+  return (data || []) as User[];
 }
 
 export default async function UsuariosPage() {

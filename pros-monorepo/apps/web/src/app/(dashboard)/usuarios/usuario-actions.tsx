@@ -42,8 +42,7 @@ export function UsuarioActions({ usuario }: UsuarioActionsProps) {
       return;
     }
 
-    const { error } = await supabase
-      .from('users')
+    const { error } = await (supabase.from('users') as any)
       .update({ role: newRole })
       .eq('id', usuario.id);
 

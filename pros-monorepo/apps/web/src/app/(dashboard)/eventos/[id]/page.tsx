@@ -14,9 +14,10 @@ import {
 } from '@/components/ui/table';
 import { ArrowLeft, Pencil, CalendarDays, MapPin, Users, Copy } from 'lucide-react';
 import { formatDateShort, formatDate, formatTime } from '@pros/shared';
+import type { Evento } from '@pros/shared';
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 async function getEvento(id: string) {
@@ -28,7 +29,7 @@ async function getEvento(id: string) {
     .single();
   
   if (error || !data) return null;
-  return data;
+  return data as Evento;
 }
 
 async function getAsistencias(eventoId: string) {
@@ -46,13 +47,14 @@ async function getAsistencias(eventoId: string) {
 }
 
 export default async function EventoDetailPage({ params }: PageProps) {
-  const evento = await getEvento(params.id);
+  const { id } = await params;
+  const evento = await getEvento(id);
 
   if (!evento) {
     notFound();
   }
 
-  const asistencias = await getAsistencias(params.id);
+  const asistencias = await getAsistencias(id);
 
   return (
     <div className="space-y-6">

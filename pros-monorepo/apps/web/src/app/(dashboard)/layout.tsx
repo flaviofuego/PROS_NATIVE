@@ -23,11 +23,13 @@ export default async function DashboardLayout({
     .eq('id', authUser.id)
     .single();
 
+  const profileUser = (profile ?? null) as unknown as User | null;
+
   return (
     <div className="flex h-screen bg-slate-50">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header user={profile as User} />
+        <Header user={profileUser} />
         <main className="flex-1 overflow-auto p-6">
           {children}
         </main>

@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import type { User } from '@pros/shared';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -16,7 +17,9 @@ export default async function Home() {
     .eq('id', user.id)
     .single();
 
-  if (profile?.role === 'admin') {
+  const profileRole = (profile ?? null) as unknown as Pick<User, 'role'> | null;
+
+  if (profileRole?.role === 'admin') {
     redirect('/dashboard');
   } else {
     redirect('/eventos');
