@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CalendarDays, Users, CheckCircle, TrendingUp, Clock } from 'lucide-react';
 import { StatsCharts } from './stats-charts';
+import type { Asistencia } from '@pros/shared';
 
 async function getStats() {
   const supabase = await createClient();
@@ -30,7 +31,8 @@ async function getStats() {
 
   // Group by date
   const asistenciasByDate: Record<string, number> = {};
-  asistenciasPorDia?.forEach((a) => {
+  const asistenciasPorDiaRows = (asistenciasPorDia ?? []) as Pick<Asistencia, 'fecha_asistencia'>[];
+  asistenciasPorDiaRows.forEach((a) => {
     asistenciasByDate[a.fecha_asistencia] = (asistenciasByDate[a.fecha_asistencia] || 0) + 1;
   });
 
@@ -54,7 +56,8 @@ async function getStats() {
     .eq('fecha_asistencia', today);
 
   const hourCounts: Record<number, number> = {};
-  asistenciasPorHora?.forEach((a) => {
+  const asistenciasPorHoraRows = (asistenciasPorHora ?? []) as Pick<Asistencia, 'hora_asistencia'>[];
+  asistenciasPorHoraRows.forEach((a) => {
     const hour = parseInt(a.hora_asistencia.split(':')[0]);
     hourCounts[hour] = (hourCounts[hour] || 0) + 1;
   });

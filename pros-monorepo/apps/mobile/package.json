@@ -13,6 +13,7 @@
     "build": "echo 'Mobile build handled by EAS'"
   },
   "dependencies": {
+    "@pros/supabase": "*",
     "@pros/shared": "*",
     "@expo/vector-icons": "^15.0.3",
     "@react-native-async-storage/async-storage": "2.2.0",
@@ -48,7 +49,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/react": "~19.1.0",
+    "@types/react": "18.2.46",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "typescript": "~5.9.2"

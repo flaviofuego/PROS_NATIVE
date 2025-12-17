@@ -36,19 +36,21 @@ export default function EditarEventoPage() {
         .eq('id', params.id)
         .single();
 
-      if (error || !data) {
+      const evento = data as Evento | null;
+
+      if (error || !evento) {
         router.push('/eventos');
         return;
       }
 
       setFormData({
-        nombre: data.nombre,
-        categoria: data.categoria,
-        encargados: data.encargados?.join(', ') || '',
-        fecha_inicio: data.fecha_inicio,
-        fecha_fin: data.fecha_fin,
-        ubicacion: data.ubicacion,
-        activo: data.activo,
+        nombre: evento.nombre,
+        categoria: evento.categoria,
+        encargados: evento.encargados?.join(', ') || '',
+        fecha_inicio: evento.fecha_inicio,
+        fecha_fin: evento.fecha_fin,
+        ubicacion: evento.ubicacion,
+        activo: evento.activo,
       });
       setFetching(false);
     }
